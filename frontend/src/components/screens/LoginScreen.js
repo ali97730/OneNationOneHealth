@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { toast,ToastContainer } from "react-toastify";
 
+
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "./LoginScreen.css";
@@ -31,9 +32,9 @@ const LoginScreen = ({ history }) => {
         { email, password },
         config
       );
-
+      
       localStorage.setItem("authToken", data.token);
-      history.push("/");
+      history.push(`/details/${data.user_id}`);
     } catch (error) {
       // setError(error.response.data.error);
       toast(error.response.data.error,{type:"error"})

@@ -28,8 +28,11 @@ const PrivateScreen = ({history}) => {
     fetchPrivateDate();
   }, []);
   return error ? (
-    <span className="error-message">{error}</span>
-  ) : (
+    <div>
+      {history.push("./login")}
+      <span className="error-message">{error}</span>
+    </div>
+    ) : (
     
     <div>
        <button  className="btn btn-danger"

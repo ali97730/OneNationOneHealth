@@ -26,9 +26,10 @@ const userSchema = new mongoose.Schema({
         select : false
     },
     resetPasswordToken : String,
-    resetPasswordExpire : Date
+    resetPasswordExpire : Date,
+    
 
-});
+},{ timestamps: true });
 
 userSchema.pre("save",async function(next){
     if(!this.isModified("password")){
