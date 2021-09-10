@@ -1,51 +1,175 @@
-import { useState, useEffect } from "react";
+
+
+import { useState } from "react";
 import axios from "axios";
-import UserForm from "../UserForm";
+//import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
 
-const PrivateScreen = ({history}) => {
-  const [error, setError] = useState("");
-  const [privateData, setPrivateData] = useState("");
 
-  useEffect(() => {
-    const fetchPrivateDate = async () => {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      };
+const PrivateScreen = ({history,match}) => {
 
-      try {
-        const { data } = await axios.get("/api/private", config);
-        setPrivateData(data.data);
-      } catch (error) {
-        localStorage.removeItem("authToken");
-        setError("You are not authorized please login");
-      }
-    };
 
-    fetchPrivateDate();
-  }, []);
-  return error ? (
-    <div>
-      {history.push("./login")}
-      <span className="error-message">{error}</span>
-    </div>
-    ) : (
+  const [data,setData] = useState({
+    fullname:"",
+    age:"",
+    image:""
+  })
+
+  const config = {
+    header: {
+      "Content-Type": "multipart/form-data",
+      "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
+    },
+  };
+
+  const {fullname,age,image} = data
+ 
+  var formData = new FormData();
+  const handleChange=name=>event=>{
     
-    <div>
-       <button  className="btn btn-danger"
-            onClick={()=>{history.push("/login") 
-          localStorage.removeItem("authToken")
-    }}
-    >Logout</button>
-      <div>{privateData}</div>
-      <UserForm/>
-     
-    </div>
+
+    if(name ==="image"){
+      let arr = Array.from(event.target.files)
+      setData({...data,image:arr})
+    }else{
+      const value = event.target.value
+      setData({...data,[name]:value})
+    }
+
+}
   
-  );
-};
+  const submitHandler = async (e)=>{
+    e.preventDefault()
+  try {
+    // formData.append("image","")
+    // formData.append("fullname","")
+    // formData.append("age","")
+
+   
+    formData.set("fullname",data.fullname)
+    formData.set("age",data.age)
+    console.log(data.image)
+    for(var i=0;i<data.image.length;i++){
+      formData.append("image",data.image[i])
+    }
+    console.log(formData.get("fullname"))
+    console.log(formData.get("age"))
+      await axios.post(`/api/private/details/${match.params.user_id}`,formData,config).then(
+        (res)=>{
+          console.log(res)
+        }
+      ).catch((error)=>{
+        console.log(error)
+      })
+
+    
+    
+    
+  } catch (error) {
+    console.log(error)
+  }
+  
+}
+
+  return(
+    <div>
+       <form >
+       <label className="btn btn-block btn-success">
+              <input
+                onChange={handleChange("fullname")}
+                type="text"
+                name="fullname"
+                value={fullname}
+                placeholder="choose a file"
+              />
+            </label>
+            <label className="btn btn-block btn-success">
+              <input
+                onChange={handleChange("age")}
+                type="text"
+                name="age"
+                value={age}
+                placeholder="choose a file"
+              />
+            </label>
+            <label className="btn btn-block btn-success">
+              <input
+                onChange={handleChange("image")}
+                type="file"
+                name="image"
+                 multiple
+                accept="image"
+                placeholder="choose a file"
+              />
+               <input
+                onChange={handleChange("image")}
+                type="file"
+                name="image"
+                // multiple
+                accept="image"
+                placeholder="choose a file"
+              />
+            </label>
+
+            <button type="submit" onClick={submitHandler} className="btn btn-outline-success mb-3">
+            Submit
+          </button>
+
+       </form>
+
+    </div>
+  )
+
+
+
+  };
 
 export default PrivateScreen;
+
+
+
+
+
+
+// const [error, setError] = useState("");
+//   const [privateData, setPrivateData] = useState("");
+
+//   useEffect(() => {
+//     const fetchPrivateDate = async () => {
+//       const config = {
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+//         },
+//       };
+
+//       try {
+//         const { data } = await axios.get("/api/private", config);
+//         setPrivateData(data.data);
+//       } catch (error) {
+//         localStorage.removeItem("authToken");
+//         setError("You are not authorized please login");
+//       }
+//     };
+
+//     fetchPrivateDate();
+//   }, []);
+//   return error ? (
+//     <div>
+//       {history.push("./login")}
+//       <span className="error-message">{error}</span>
+//     </div>
+//     ) : (
+    
+//     <div>
+//        <button  className="btn btn-danger"
+//             onClick={()=>{history.push("/login") 
+//           localStorage.removeItem("authToken")
+//     }}
+//     >Logout</button>
+//       <div>{privateData}</div>
+//       <UserForm/>
+     
+//     </div>
+  
+//   );

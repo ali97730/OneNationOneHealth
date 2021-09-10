@@ -9,6 +9,9 @@ const userDetailsSchema = new mongoose.Schema({
         type:Number,
         required:[true,"please provide your age"]
     },
+    images :[{
+        cloudinary_id:String,image_url:String
+    }],
     user :
         {type: mongoose.Schema.Types.ObjectId,
         ref: "User"},
