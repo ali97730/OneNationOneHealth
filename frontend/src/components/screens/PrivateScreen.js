@@ -1,12 +1,29 @@
 
 
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import axios from "axios";
 //import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
 
 
 const PrivateScreen = ({history,match}) => {
+
+    useEffect(() => {
+      
+      const getUserDetails= async()=>{
+         let {data} =   await axios.get(`/api/private/details/${match.params.user_id}`,config)
+          if(data){
+             setData({
+               fullname:data.fullname,
+               age:data.age,
+               image:data.image
+             })
+          }
+      }
+
+      getUserDetails()
+      
+    }, [match.params.user_id])
 
 
   const [data,setData] = useState({
@@ -16,7 +33,7 @@ const PrivateScreen = ({history,match}) => {
   })
 
   const config = {
-    header: {
+    headers: {
       "Content-Type": "multipart/form-data",
       "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
     },
@@ -52,21 +69,17 @@ const PrivateScreen = ({history,match}) => {
     for(var i=0;i<data.image.length;i++){
       formData.append("image",data.image[i])
     }
-    console.log(formData.get("fullname"))
-    console.log(formData.get("age"))
+    
       await axios.post(`/api/private/details/${match.params.user_id}`,formData,config).then(
-        (res)=>{
-          console.log(res)
+        (response)=>{
+            console.log(response)
         }
-      ).catch((error)=>{
-        console.log(error)
-      })
+      )
 
-    
-    
-    
   } catch (error) {
+    
     console.log(error)
+    history.push("/")
   }
   
 }

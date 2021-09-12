@@ -12,12 +12,13 @@ exports.getPrivateRoute = (req, res, next) => {
       });
   };
 
-exports.submitUserDetails = async (req,res) => {
+exports.submitUserDetails = async (req,res,next) => {
 
   
-  console.log(req.files)
+ 
   const { fullname,age} = req.body;
    const id = req.params.user_id;
+ 
     try {
 
       var imageUrlList = [];
@@ -39,7 +40,7 @@ exports.submitUserDetails = async (req,res) => {
         fullname,
         age,
         images:imageUrlList,
-        id
+        user:id
       });
       // Save user
        await userDetails.save();
@@ -49,6 +50,18 @@ exports.submitUserDetails = async (req,res) => {
     }
     
 
+}
+
+
+exports.getUserDetails = async(req,res,next) =>{
+
+  try {
+    console.log(req.params.user_id+"getting params")
+     let userDetails =  await UserDetails.findOne({user:req.params.user_id})
+      res.send(userDetails)
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 //Pending
