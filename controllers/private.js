@@ -64,6 +64,46 @@ exports.getUserDetails = async(req,res,next) =>{
   }
 }
 
+
+
+exports.updateUserDetails = async (req,res,next) => {
+
+  
+ 
+  const { fullname,age} = req.body;
+   const id = req.params.user_id;
+   console.log(req.body)
+ 
+    try {
+
+      var imageUrlList = [];
+  
+        for (var i = 0; i < req.files.length; i++) {
+            var locaFilePath = req.files[i].path;
+  
+            // Upload the local image to Cloudinary
+            // and get image url as response
+            var result = await cloudinary.uploader.upload(locaFilePath);
+            imageUrlList.push({cloudinary_id:result.public_id,image_url:result.secure_url});
+        }
+      // Upload image to cloudinary
+      //const result = await cloudinary.uploader.upload(req.file.path);
+  
+      update = {
+        $set: {fullname: fullname,age:age},
+        $push:{images:imageUrlList}
+    }
+     let UpdatedUser= await UserDetails.findOneAndUpdate({user:id},update,{upsert:true,new:true})
+      // Save user
+      await UpdatedUser.save();
+      res.json(UpdatedUser);//we are sending to front end
+    } catch (err) {
+      console.log(err);
+    }
+    
+
+}
+
 //Pending
 // exports.deleteImage = async (req,res) => {
 //   const image_id = req.params.cloudinary_id;

@@ -9,27 +9,28 @@ import axios from "axios";
 const PrivateScreen = ({history,match}) => {
 
     useEffect(() => {
-      
       const getUserDetails= async()=>{
-         let {data} =   await axios.get(`/api/private/details/${match.params.user_id}`,config)
-          if(data){
-             setData({
-               fullname:data.fullname,
-               age:data.age,
-               image:data.image
-             })
-          }
-      }
-
+        let {data} =   await axios.get(`/api/private/details/${match.params.user_id}`,config)
+         if(data){
+            setData({
+              fullname:data.fullname,
+              age:data.age,
+              image:data.image,
+              userId:data.user
+            })
+            
+         }
+     }
+    
       getUserDetails()
-      
-    }, [match.params.user_id])
+    },[] )
 
 
   const [data,setData] = useState({
     fullname:"",
     age:"",
-    image:""
+    image:"",
+    userId:""
   })
 
   const config = {
@@ -39,7 +40,8 @@ const PrivateScreen = ({history,match}) => {
     },
   };
 
-  const {fullname,age,image} = data
+ 
+  const {fullname,age} = data
  
   var formData = new FormData();
   const handleChange=name=>event=>{
@@ -58,23 +60,36 @@ const PrivateScreen = ({history,match}) => {
   const submitHandler = async (e)=>{
     e.preventDefault()
   try {
-    // formData.append("image","")
-    // formData.append("fullname","")
-    // formData.append("age","")
-
-   
     formData.set("fullname",data.fullname)
     formData.set("age",data.age)
     console.log(data.image)
-    for(var i=0;i<data.image.length;i++){
-      formData.append("image",data.image[i])
+    if(data.image){
+      for(var i=0;i<data.image.length;i++){
+        formData.append("image",data.image[i])
+      } 
     }
+    if(!data.userId){
     
       await axios.post(`/api/private/details/${match.params.user_id}`,formData,config).then(
         (response)=>{
             console.log(response)
+            history.push(`/details/certificate/${match.params.user_id}`)
+          }
+      ).catch((err)=>{
+        console.log(err)
+      })
+    }else{
+
+      await axios.put(`/api/private/details/${match.params.user_id}`,formData,config).then(
+        (response)=>{
+            console.log(response)
+            history.push(`/details/certificate/${data.userId}`)
         }
-      )
+      ).catch((err)=>{
+        console.log(err)
+      })
+
+    }
 
   } catch (error) {
     
