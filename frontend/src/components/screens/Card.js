@@ -14,7 +14,7 @@ const Card = ({match}) => {
               setData({
                 fullname:data.fullname,
                 age:data.age,
-                image:data.image,
+                image:data.images,
                 userId:data.user
               })
               
@@ -51,7 +51,7 @@ const Card = ({match}) => {
              <div  style={{width: 800, height: 500, backgroundImage:`url(${bg})`,position:"relative",border:"1px solid"}} ref={ref}>
                     <div style={{position:"absolute",marginTop:230,marginLeft:30,display:"flex"}} >
                             <QRCode
-                                    value={`http://localhost:3000/details/certificate/613490258236b1744f4753a4/`}
+                                    value={`http://localhost:3000/otherUser/${data.userId}/`}
                                     size={128}
                                     bgColor={"#ffffff"}
                                     fgColor={"#000000"}

@@ -12,6 +12,7 @@ import RegisterScreen from "./components/screens/RegisterScreen";
 import ForgotPasswordScreen from "./components/screens/ForgotPasswordScreen";
 import ResetPasswordScreen from "./components/screens/ResetPasswordScreen";
 import Card from "./components/screens/Card";
+import Details from "./components/screens/Details";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
           <PrivateRoute exact path="/details/:user_id" component={PrivateScreen} />
           <PrivateRoute exact path="/details/certificate/:user_id" component={Card} />
           <PrivateRoute exact path="/" component={LoginScreen} />
+          <Route exact path="/otherUser/:user_id" component={Details} />
           <Route exact path="/login" component={LoginScreen} />
           <Route exact path="/register" component={RegisterScreen} />
           <Route

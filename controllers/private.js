@@ -16,7 +16,22 @@ exports.submitUserDetails = async (req,res,next) => {
 
   
  
-  const { fullname,age} = req.body;
+  const {  fullname,
+    contactNumber,
+    age,
+    address,
+    city,
+    state,
+    pincode,
+    gender,
+    dateOfBirth,
+    emergencyPhoneNumber,
+    bloodGroup,
+    familyDoctorNumber,
+    anyDisability,
+    severeDisease,
+    donor,
+    } = req.body;
    const id = req.params.user_id;
  
     try {
@@ -37,10 +52,23 @@ exports.submitUserDetails = async (req,res,next) => {
       
       // Create new user
       let userDetails = await new UserDetails({
-        fullname,
-        age,
-        images:imageUrlList,
-        user:id
+        fullname:fullname,
+          contactNumber :contactNumber,
+          age:age,
+          address:address,
+          city:city,
+          state:state,
+          pincode:pincode,
+          gender:gender,
+          dateOfBirth:dateOfBirth,
+          emergencyPhoneNumber:emergencyPhoneNumber,
+          bloodGroup:bloodGroup,
+          familyDoctorNumber:familyDoctorNumber,
+          anyDisability:anyDisability,
+          severeDisease:severeDisease,
+          donor:donor,
+          images:imageUrlList,
+          user:id
       });
       // Save user
        await userDetails.save();
@@ -70,7 +98,21 @@ exports.updateUserDetails = async (req,res,next) => {
 
   
  
-  const { fullname,age} = req.body;
+  const {fullname,
+    contactNumber,
+    age,
+    address,
+    city,
+    state,
+    pincode,
+    gender,
+    dateOfBirth,
+    emergencyPhoneNumber,
+    bloodGroup,
+    familyDoctorNumber,
+    anyDisability,
+    severeDisease,
+    donor,} = req.body;
    const id = req.params.user_id;
    console.log(req.body)
  
@@ -90,7 +132,23 @@ exports.updateUserDetails = async (req,res,next) => {
       //const result = await cloudinary.uploader.upload(req.file.path);
   
       update = {
-        $set: {fullname: fullname,age:age},
+        $set: { 
+          fullname:fullname,
+          contactNumber :contactNumber,
+          age:age,
+          address:address,
+          city:city,
+          state:state,
+          pincode:pincode,
+          gender:gender,
+          dateOfBirth:dateOfBirth,
+          emergencyPhoneNumber:emergencyPhoneNumber,
+          bloodGroup:bloodGroup,
+          familyDoctorNumber:familyDoctorNumber,
+          anyDisability:anyDisability,
+          severeDisease:severeDisease,
+          donor:donor,
+          },
         $push:{images:imageUrlList}
     }
      let UpdatedUser= await UserDetails.findOneAndUpdate({user:id},update,{upsert:true,new:true})
