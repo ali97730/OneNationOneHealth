@@ -1,0 +1,61 @@
+
+
+.parentContainer {
+  margin: 6%  ;
+  border: 1px solid ;
+  padding: 2%;
+  margin-top: 4%;
+  border-radius: 15px;
+  background-color: #758283;
+}
+
+.formLabel{
+  
+  
+}
+
+.formRow{
+  padding: 2%;
+}
+
+img{
+  width: 150px;
+  height: 150px;
+}
+
+.itemRow{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  border:1px dashed #120E43 ;
+  border-radius: 10px;
+  
+
+}
+.itemValue{
+  display: flex;
+  flex-direction: row;
+}
+.itemValue2{
+  display: flex;
+  flex-direction: row;
+  margin-top: 8%;
+   color:brown;
+  
+}
+.rowLabel{
+  margin-left: 10%;
+}
+
+
+
+
+.disabledInput{
+  height: 7vh;
+  width: 10vw;
+  margin: 2%;
+  margin-left: 10%;
+
+ 
+
+}

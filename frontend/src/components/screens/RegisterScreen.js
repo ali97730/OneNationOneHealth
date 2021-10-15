@@ -58,7 +58,7 @@ const RegisterScreen = ({ history }) => {
       <form onSubmit={registerHandler} className="register-screen__form">
         <h3 className="register-screen__title">Register<ToastContainer/></h3>
         {error && <span className="error-message">{error}</span>}
-        <div className="form-group">
+        <div className="form-group form-groupLogin">
           <label htmlFor="name">Username:</label>
           <input
             type="text"
@@ -69,7 +69,7 @@ const RegisterScreen = ({ history }) => {
             onChange={(e) => setUsername(e.target.value)}
           />
         </div>
-        <div className="form-group">
+        <div className="form-group form-groupLogin">
           <label htmlFor="email">Email:</label>
           <input
             type="email"
@@ -80,7 +80,7 @@ const RegisterScreen = ({ history }) => {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div className="form-group">
+        <div className="form-group form-groupLogin">
           <label htmlFor="password">Password:</label>
           <input
             type="password"
@@ -92,7 +92,7 @@ const RegisterScreen = ({ history }) => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <div className="form-group">
+        <div className="form-group form-groupLogin">
           <label htmlFor="confirmpassword">Confirm Password:</label>
           <input
             type="password"

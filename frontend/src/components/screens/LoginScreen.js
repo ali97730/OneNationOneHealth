@@ -49,7 +49,7 @@ const LoginScreen = ({ history }) => {
       <form onSubmit={loginHandler} className="login-screen__form">
         <h3 className="login-screen__title">Login<ToastContainer/></h3>
         {/* {error && <span className="error-message">{error}</span>} */}
-        <div className="form-group">
+        <div className="form-group form-groupLogin">
           <label htmlFor="email">Email:</label>
           <input
             type="email"
@@ -61,7 +61,7 @@ const LoginScreen = ({ history }) => {
             tabIndex={1}
           />
         </div>
-        <div className="form-group">
+        <div className="form-group form-groupLogin">
           <label htmlFor="password">
             Password:{" "}
             <Link to="/forgotpassword" className="login-screen__forgotpassword">

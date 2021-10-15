@@ -1,3 +1,4 @@
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "react-toastify/dist/ReactToastify.css";
@@ -6,18 +7,18 @@ import "react-toastify/dist/ReactToastify.css";
 import PrivateRoute from "./components/routing/PrivateRoute";
 
 // Screens
-import PrivateScreen from "./components/screens/PrivateScreen";
-import LoginScreen from "./components/screens/LoginScreen";
-import RegisterScreen from "./components/screens/RegisterScreen";
-import ForgotPasswordScreen from "./components/screens/ForgotPasswordScreen";
-import ResetPasswordScreen from "./components/screens/ResetPasswordScreen";
-import Card from "./components/screens/Card";
-import Details from "./components/screens/Details";
+const PrivateScreen =  lazy(()=>import("./components/screens/PrivateScreen"));
+const LoginScreen = lazy(()=>import("./components/screens/LoginScreen"));
+const RegisterScreen = lazy(()=>import("./components/screens/RegisterScreen"));
+const ForgotPasswordScreen = lazy(()=>import("./components/screens/ForgotPasswordScreen"));
+const ResetPasswordScreen = lazy(()=>import("./components/screens/ResetPasswordScreen"));
+const Card = lazy(()=>import("./components/screens/Card"));
+const Details = lazy(()=>import("./components/screens/Details"));
 
 const App = () => {
   return (
     <Router>
-      <div className="app">
+      <Suspense  fallback={<div>LoADING.......</div>} className="app">
         <Switch>
           <PrivateRoute exact path="/details/:user_id" component={PrivateScreen} />
           <PrivateRoute exact path="/details/certificate/:user_id" component={Card} />
@@ -37,7 +38,7 @@ const App = () => {
           />
           <Route path="/" component={LoginScreen}/>
         </Switch>
-      </div>
+      </Suspense>
     </Router>
   );
 };

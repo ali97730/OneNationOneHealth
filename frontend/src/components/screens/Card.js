@@ -3,6 +3,9 @@ import axios from "axios";
 import QRCode from 'qrcode.react';
 import ReactToPdf from "react-to-pdf";
 import bg from "../bg.png"
+import  Navbar  from "../screens/Navbar"
+
+
 
 
 const Card = ({match}) => {
@@ -41,6 +44,8 @@ const Card = ({match}) => {
     const ref = React.createRef();
     
     return (
+        <>
+      <Navbar/>
 
         <div style={{display:"flex" ,justifyContent:"center",alignItems:"center"}}>
             <ReactToPdf targetRef={ref} filename="div-blue.pdf">
@@ -66,6 +71,7 @@ const Card = ({match}) => {
                         </div>            
             </div>
         </div>
+        </>
     )
 }
 

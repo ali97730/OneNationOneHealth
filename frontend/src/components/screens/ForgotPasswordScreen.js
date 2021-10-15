@@ -47,7 +47,7 @@ const ForgotPasswordScreen = () => {
         <h3 className="forgotpassword-screen__title">Forgot Password<ToastContainer/></h3>
         {error && <span className="error-message">{error}</span>}
         {success && <span className="success-message">{success}</span>}
-        <div className="form-group">
+        <div className="form-group form-groupLogin">
           <p className="forgotpassword-screen__subtext">
             Please enter the email address you register your account with. We
             will send you reset password confirmation to this email

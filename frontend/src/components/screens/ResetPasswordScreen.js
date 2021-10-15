@@ -63,7 +63,7 @@ const ResetPasswordScreen = ({ history, match }) => {
             {success} <Link to="/login">Login</Link>
           </span>
         )}
-        <div className="form-group">
+        <div className="form-group form-groupLogin">
           <label htmlFor="password">New Password:</label>
           <input
             type="password"
@@ -75,7 +75,7 @@ const ResetPasswordScreen = ({ history, match }) => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <div className="form-group">
+        <div className="form-group form-groupLogin">
           <label htmlFor="confirmpassword">Confirm New Password:</label>
           <input
             type="password"
