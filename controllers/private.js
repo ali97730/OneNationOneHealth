@@ -34,7 +34,9 @@ exports.submitUserDetails = async (req,res,next) => {
     items
     } = req.body;
    const id = req.params.user_id;
- 
+    const stringToJson = JSON.parse(items)
+    console.log(stringToJson)
+
     try {
 
       var imageUrlList = [];
@@ -70,7 +72,7 @@ exports.submitUserDetails = async (req,res,next) => {
           donor:donor,
           images:imageUrlList,
           user:id,
-          items:items
+          items:stringToJson
       });
       // Save user
        await userDetails.save();
@@ -117,7 +119,8 @@ exports.updateUserDetails = async (req,res,next) => {
     donor,
     items} = req.body;
    const id = req.params.user_id;
- 
+   const stringToJson = JSON.parse(items)
+   console.log(stringToJson)
     try {
 
       var imageUrlList = [];
@@ -129,7 +132,6 @@ exports.updateUserDetails = async (req,res,next) => {
             var result = await cloudinary.uploader.upload(locaFilePath);
             imageUrlList.push({cloudinary_id:result.public_id,image_url:result.secure_url});
         }
-        console.log(items)
       // Upload image to cloudinary
       //const result = await cloudinary.uploader.upload(req.file.path);
   
@@ -150,6 +152,7 @@ exports.updateUserDetails = async (req,res,next) => {
           anyDisability:anyDisability,
           severeDisease:severeDisease,
           donor:donor,
+          items:stringToJson
           },
         $push:{images:imageUrlList}
     }

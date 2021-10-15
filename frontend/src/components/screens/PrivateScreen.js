@@ -8,6 +8,7 @@ import { Button, Form, FormGroup, Label, Input,InputGroup, InputGroupAddon, Inpu
   Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { saveAs } from 'file-saver';
 import { jsonState } from "../../stateAndCity";
+import { toast,ToastContainer } from "react-toastify";
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
@@ -48,10 +49,10 @@ const PrivateScreen = ({history,match}) => {
               age:data.age,
               image:data.images,
               userId:data.user,
-              items:data.items
             })
             
             setImg(data.images)
+            setitems(data.items)
          }
      }
     
@@ -72,7 +73,7 @@ const PrivateScreen = ({history,match}) => {
       purpose:""
     })
     const {dateofDiagnosed,hospitalname,purpose} =item
-    const [items,setitems] = useState([])
+    
     
   const [data,setData] = useState({
     fullname:"",
@@ -92,8 +93,9 @@ const PrivateScreen = ({history,match}) => {
     age:"",
     image:[],
     userId:"",
-    items:items
+    items:[]
   })
+  const [items,setitems] = useState([])
   const [img,setImg] = useState([])
   const [error,setError] = useState({
     fullname:null,
@@ -103,10 +105,7 @@ const PrivateScreen = ({history,match}) => {
     dateOfBirth:"",
     emergencyPhoneNumber:null,
     familyDoctorNumber:null,
-    anyDisability:"",
-    severeDisease:"",
     age:null,
-    image:[],
     userId:""
   });
 
@@ -170,6 +169,14 @@ const PrivateScreen = ({history,match}) => {
   
   const submitHandler = async (e)=>{
     e.preventDefault()
+      if(error.fullname === true || error.pincode === true || error.address === true || 
+        error.age === true || error.contactNumber === true ||
+        error.familyDoctorNumber === true){   
+          // setError(error.response.data.error);
+          console.log(error)
+      toast("Invalid Credentials",{type:"error"})
+      return
+        }
   try {
     formData.set("fullname",fullname)
     formData.set("contactNumber",contactNumber)
@@ -186,9 +193,9 @@ const PrivateScreen = ({history,match}) => {
     formData.set("anyDisability",anyDisability)
     formData.set("severeDisease",severeDisease)
     formData.set("donor",donor)
-    formData.set("items",items)
+    formData.set("items",JSON.stringify(items))
+    
 
-  
     if(data.image){
       for(var i=0;i<data.image.length;i++){
         formData.append("image",data.image[i])
@@ -230,6 +237,7 @@ const PrivateScreen = ({history,match}) => {
    <div style={{backgroundImage:"linear-gradient(#DB0B5F, #6F00ED)",color:"white"}}>
       <Navbar/>
    <Form onSubmit={submitHandler} className="container parentContainer">
+   <ToastContainer/>
       <FormGroup className="row formRow">
          <div className="col-3 offset-1">
            <Label  className="formLabel" htmlFor="fullname"><h3>Fullname </h3></Label>
@@ -413,8 +421,8 @@ const PrivateScreen = ({history,match}) => {
                 <InputGroupAddon addonType="prepend">
                   <InputGroupText>+91</InputGroupText>
                 </InputGroupAddon>
-                <Input type="number" name="familyDoctorNumber" id="familyDoctorNumber" valid={familyDoctorNumber.length === 0 ? false : !error.familyDoctorNumber} invalid={error.familyDoctorNumber}value={familyDoctorNumber} onChange={handleChange("familyDoctorNumber")} placeholder="Enter Emergency Contact Number" />
-             <FormFeedback invalid={error.familyDoctorNumber}>{familyDoctorNumber.length === 0?"please enter Contact number":"This is Invalid Number"}</FormFeedback>
+                <Input type="number" name="familyDoctorNumber" id="familyDoctorNumber" valid={familyDoctorNumber && familyDoctorNumber?.length === 0 ? false : !error.familyDoctorNumber} invalid={error.familyDoctorNumber}value={familyDoctorNumber} onChange={handleChange("familyDoctorNumber")} placeholder="Enter Emergency Contact Number" />
+             <FormFeedback invalid={error.familyDoctorNumber}>{familyDoctorNumber && familyDoctorNumber.length === 0?"please enter Contact number":"This is Invalid Number"}</FormFeedback>
                </InputGroup>      
              <CustomInput type="checkbox" checked={familyDoc} id="exampleCustomCheckbox" onChange={()=>{setFamilyDoc(!familyDoc)}} label="un-Check if not having" />
 
@@ -545,16 +553,16 @@ const PrivateScreen = ({history,match}) => {
                 <div key={index} className="col-10 offset-1 itemRow">
                   <div className="itemValue">
                       <div className="itemValue2"><h4 className="rowLabel">Date</h4> <span><DateRangeOutlinedIcon/></span> </div> 
-                      <Input   className="disabledInput" disabled value={dateofDiagnosed}></Input>
+                      <Input   className="disabledInput" disabled value={i.dateofDiagnosed}></Input>
                   </div>
                     <div className="itemValue">
                           <div className="itemValue2"><h4>Visited</h4> <span><LocalHospitalOutlinedIcon/></span> </div> 
-                          <Input className="disabledInput" disabled value={hospitalname}></Input>
+                          <Input className="disabledInput" disabled value={i.hospitalname}></Input>
 
                     </div>
                       <div className="itemValue">
                       <div className="itemValue2"><h4>Purpose</h4><span><ConnectWithoutContactOutlinedIcon/></span> </div> 
-                      <Input className="disabledInput" disabled value={purpose}></Input>
+                      <Input className="disabledInput" disabled value={i.purpose}></Input>
 
                       </div>
                 
