@@ -136,13 +136,14 @@ const PrivateScreen = ({history,match}) => {
   } = data
 
   function Validation(field,value){
-        if(field === "fullname"){validator.isAlpha(value) ? setError({...error,fullname:false}):setError({...error,fullname:true})}
         if(field === "contactNumber"){ validator.isNumeric(value) && value.length ===10 && (value%1 === 0 ) ? setError({...error,contactNumber:false}):setError({...error,contactNumber:true})}
         if(field === "emergencyPhoneNumber"){ validator.isNumeric(value) && value.length ===10 && (value%1 === 0 ) ? setError({...error,emergencyPhoneNumber:false}):setError({...error,emergencyPhoneNumber:true})}
         if(field === "familyDoctorNumber"){ validator.isNumeric(value) && (value.length ===10 || value.length===0) && (value%1 === 0 ) ? setError({...error,familyDoctorNumber:false}):setError({...error,familyDoctorNumber:true})}
         if(field === "age"){ (value%1 === 0 )  && value > 0 && value <=100 ? setError({...error,age:false}):setError({...error,age:true})}
         if(field === "address"){ value.length > 0 && value.length <=100 ? setError({...error,address:false}):setError({...error,address:true})}
         if(field === "pincode"){ validator.isNumeric(value) && value.length <=6 && value >0 ? setError({...error,pincode:false}):setError({...error,pincode:true})}
+        if(field === "fullname"){validator.isAlpha(value) ? setError({...error,fullname:false}):setError({...error,fullname:true})}
+
     
 
   } 
