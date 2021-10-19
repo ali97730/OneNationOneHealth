@@ -29,13 +29,8 @@ const PrivateScreen = ({history,match}) => {
       const getUserDetails= async()=>{
         console.log(match.params.user_id)
 
-          await axios.get(`/api/private/details/${match.params.user_id}`,config).then(
-              (err,res)=>{
-                if(err){
-                  console.log(err)
-                }else{console.log(res)}
-              }
-          )
+         let {data} =  await axios.get(`/api/private/details/${match.params.user_id}`,config)
+              
           console.log(data)
       
       
