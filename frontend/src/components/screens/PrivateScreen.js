@@ -27,8 +27,10 @@ const PrivateScreen = ({history,match}) => {
 
     useEffect(() => {
       const getUserDetails= async()=>{
+        console.log(match.params.user_id)
         let {data} =   await axios.get(`/api/private/details/${match.params.user_id}`,config)
           console.log(data)
+          console.log("HIII")
          if(data.user){
             setData({
               
