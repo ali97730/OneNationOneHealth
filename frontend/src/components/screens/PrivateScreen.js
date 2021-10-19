@@ -57,7 +57,8 @@ const PrivateScreen = ({history,match}) => {
      }
     
        getUserDetails()
-    },[] )
+     
+    },[] )// eslint-disable-line react-hooks/exhaustive-deps
 
     const [familyDoc,setFamilyDoc] =  useState(false)
     const [disabled,setDisabled] =  useState(false)

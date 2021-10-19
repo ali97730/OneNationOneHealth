@@ -46,7 +46,7 @@ const Details = ({history,match}) => {
         setlong(position.coords.longitude)
        });
        
-    },[] )
+    },[] )// eslint-disable-line react-hooks/exhaustive-deps
 
     
     
