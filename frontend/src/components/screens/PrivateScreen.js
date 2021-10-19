@@ -29,18 +29,14 @@ const PrivateScreen = ({history,match}) => {
       const getUserDetails= async()=>{
         console.log(match.params.user_id)
 
-          await fetch(`/api/private/details/${match.params.user_id}`,{method:"GET",headers: {
-            "Content-Type": "multipart/form-data",
-            "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
-          }}).then(
+          await axios.get(`/api/private/details/${match.params.user_id}`,config).then(
               (err,res)=>{
                 if(err){
                   console.log(err)
-                }else{
-                  console.log(res)
-                }
+                }else{console.log(res)}
               }
           )
+          console.log(data)
       
       
           console.log("HIII")
