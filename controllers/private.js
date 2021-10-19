@@ -90,7 +90,7 @@ exports.getUserDetails = async(req,res,next) =>{
   try {
     console.log(req.params.user_id+"getting params")
      let userDetails =  await UserDetails.findOne({user:req.params.user_id})
-      res.send(userDetails + req.params.user_id +"hiiii")
+      res.send(userDetails)
   } catch (error) {
     console.log(error)
   }
