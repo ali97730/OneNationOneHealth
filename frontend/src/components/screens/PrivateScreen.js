@@ -221,7 +221,8 @@ const PrivateScreen = ({history,match}) => {
       await axios.put(`/api/private/details/${match.params.user_id}`,formData,config).then(
         (response)=>{
             console.log(response)
-            history.push(`/details/certificate/${match.params.user_id}`)
+           // history.push(`/details/certificate/${match.params.user_id}`)
+           history.push(`/otheruser/${match.params.user_id}`)
         }
       ).catch((err)=>{
         console.log(err)
