@@ -15,14 +15,23 @@ connectDB();
 // Checking where ARe we Loading Our App
 
 if(process.env.NODE_ENV === "production"){
+
     app.use(express.static(path.join(__dirname,"/frontend/build")))
-    app.get("/*",(req,res)=>{
+    app.get("/otheruser/:user_id",(req,res)=>{
         res.sendFile(path.join(__dirname,"frontend","build","index.html"));
     })
+    app.get("/",(req,res)=>{
+
+        console.log(req)
+        res.sendFile(path.join(__dirname,"frontend","build","index.html"));
+    })
+
+    
 }else{
     app.get("/",(req,res)=>{
         res.send("Development")
     })
+    
 }
 
 
