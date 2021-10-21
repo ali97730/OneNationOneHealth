@@ -25,7 +25,7 @@ const Card = ({match}) => {
        }
       
         getUserDetails()
-      },[] )
+      },[] )// eslint-disable-line react-hooks/exhaustive-deps
 
       const [data,setData] = useState({
         fullname:"",
@@ -56,7 +56,8 @@ const Card = ({match}) => {
              <div  style={{width: 800, height: 500, backgroundImage:`url(${bg})`,position:"relative",border:"1px solid"}} ref={ref}>
                     <div style={{position:"absolute",marginTop:230,marginLeft:30,display:"flex"}} >
                             <QRCode
-                                    value={`http://localhost:3000/otherUser/${data.userId}/`}
+                                    //value={`http://localhost:3000/otherUser/${data.userId}/`}
+                                    value={`https://onenationonehealth1.herokuapp.com/otherUser/${data.userId}/`}
                                     size={128}
                                     bgColor={"#ffffff"}
                                     fgColor={"#000000"}

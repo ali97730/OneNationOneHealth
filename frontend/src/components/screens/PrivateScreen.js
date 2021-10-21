@@ -27,14 +27,10 @@ const PrivateScreen = ({history,match}) => {
 
     useEffect(() => {
       const getUserDetails= async()=>{
-        console.log(match.params.user_id)
 
          let {data} =  await axios.get(`/api/private/details/${match.params.user_id}`,config)
               
           console.log(data)
-      
-      
-          console.log("HIII")
          if(data.user){
             setData({
               
@@ -45,7 +41,7 @@ const PrivateScreen = ({history,match}) => {
               state:data.state,
               pincode:data.pincode,
               gender:data.gender,
-              dateOfBirth:data.dateOfBirth,
+              dateOfBirth:new Date(data.dateOfBirth).toISOString().split("T")[0],
               emergencyPhoneNumber:data.emergencyPhoneNumber,
               bloodGroup:data.bloodGroup,
               familyDoctorNumber:data.familyDoctorNumber,
@@ -79,7 +75,7 @@ const PrivateScreen = ({history,match}) => {
       hospitalname:"",
       purpose:""
     })
-    const {dateofDiagnosed,hospitalname,purpose} =item
+    const {dateofDiagnosed} =item
     
     
   const [data,setData] = useState({
@@ -169,6 +165,7 @@ const PrivateScreen = ({history,match}) => {
       setData({...data,image:arr})
     }else{
       const value = event.target.value
+      console.log(value)
       setData({...data,[name]:value})
     }
    }
@@ -177,9 +174,9 @@ const PrivateScreen = ({history,match}) => {
   
   const submitHandler = async (e)=>{
     e.preventDefault()
-      if(error.fullname === true || error.pincode === true || error.address === true || 
-        error.age === true || error.contactNumber === true ||
-        error.familyDoctorNumber === true){   
+      if(error.fullname || error.pincode  || error.address || 
+        error.age  || error.contactNumber  ||
+        error.familyDoctorNumber ){   
           // setError(error.response.data.error);
           console.log(error)
       toast("Invalid Credentials",{type:"error"})
@@ -224,9 +221,10 @@ const PrivateScreen = ({history,match}) => {
       await axios.put(`/api/private/details/${match.params.user_id}`,formData,config).then(
         (response)=>{
             console.log(response)
-            history.push(`/details/certificate/${data.userId}`)
+            history.push(`/details/certificate/${match.params.user_id}`)
         }
       ).catch((err)=>{
+        console.log(err)
         history.push("/")
       })
 

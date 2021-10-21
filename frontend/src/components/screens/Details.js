@@ -90,20 +90,20 @@ const Details = ({history,match}) => {
  
   const {
     fullname,
-    contactNumber,
-    age,
-    address,
-    city,
-    state,
-    pincode,
-    gender,
-    dateOfBirth,
-    emergencyPhoneNumber,
-    bloodGroup,
-    familyDoctorNumber,
-    anyDisability,
-    severeDisease,
-    donor,
+    // contactNumber,
+    // age,
+    // address,
+    // city,
+    // state,
+    // pincode,
+    // gender,
+    // dateOfBirth,
+    // emergencyPhoneNumber,
+    // bloodGroup,
+    // familyDoctorNumber,
+    // anyDisability,
+    // severeDisease,
+    // donor,
   } = data
 
 
@@ -152,7 +152,7 @@ const Details = ({history,match}) => {
         </div>
         <div className="row ">
                 <div className="col-sm-12 name">
-                        <button className="btn btn-danger" onClick={sendAlert}>Alert{" "+"Family Member"}</button>
+                        <button className="btn btn-danger" onClick={sendAlert}>Alert{"Family Member"}</button>
                 </div>
         </div>
    

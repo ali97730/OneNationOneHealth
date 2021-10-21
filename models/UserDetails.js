@@ -43,7 +43,7 @@ const userDetailsSchema = new mongoose.Schema({
         type:String
     },
     familyDoctorNumber:{
-        type:Number,
+        type:String,
     },
     anyDisability:{
         type:String
