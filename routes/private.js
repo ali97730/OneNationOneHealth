@@ -9,7 +9,7 @@ const upload = require("../utils/multer");
 
 router.get("/",protect, getPrivateRoute);
 //for userdetails
-router.get("/details/:user_id",protect,getUserDetails)
+router.get("/details/:user_id",getUserDetails)
 router.post("/details/:user_id",upload.array("image",10),protect,submitUserDetails)
 router.put("/details/:user_id",upload.array("image",10),protect,updateUserDetails)
 
