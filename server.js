@@ -43,23 +43,23 @@ app.use("/api/private/",require("./routes/private"));
 //twilio sms
 app.use(cors()); //Blocks browser from restricting any data
 const accountSid = 'AC9c085b4baf13c4905adea26a036fc837';
-const authToken = '296e49520332d38de3e0769197ddaa3c'; 
-const client = new twilio(accountSid, authToken);
+const client = new twilio(accountSid, process.env.AUTHTOKEN_SMS);
 //Twilio 
 app.post('/send-text', (req, res) => {
     //Welcome Message
     
 
     const { recipient, textmessage } = req.body;
-    
     //Send Text
     client.messages.create({
         body: textmessage,
         to: `${recipient}`,  // Text this number
         from: '+13156599321' // From a valid Twilio number
-    }).then((message) => console.log(message.body));
+    })
+    .then((message) => res.json(message))
+    .catch((err) => console.log(err));
 
-    res.send('Hello to the Twilio Server')
+    
 })
 //twilio sms
 

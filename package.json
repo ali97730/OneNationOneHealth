@@ -16,6 +16,7 @@
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
     "@mui/material": "^5.0.2",
+    "@vonage/server-sdk": "^2.10.10",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^1.26.3",
     "cors": "^2.8.5",

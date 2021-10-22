@@ -1,6 +1,7 @@
 
 
 import { useState ,useEffect } from "react";
+import { toast,ToastContainer } from "react-toastify";
 import axios from "axios";
 import "./Details.css"; 
 
@@ -8,7 +9,7 @@ const Details = ({history,match}) => {
 
     useEffect(() => {
       const getUserDetails= async()=>{
-        let {data} =   await axios.get(`/api/private/details/${match.params.user_id}`,config)
+        let {data} =   await axios.get(`/api/private/details/${match.params.user_id}`,config2)
           console.log(data)
          if(data.user){
             setData({
@@ -74,12 +75,12 @@ const Details = ({history,match}) => {
  const [lat,setlat] = useState("")
  const [long,setlong] = useState("")
 
-  const config = {
-    headers: {
-      "Content-Type": "multipart/form-data",
-      "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
-    },
-  };
+  // const config = {
+  //   headers: {
+  //     "Content-Type": "multipart/form-data",
+  //     "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
+  //   },
+  // };
   const config2 = {
     headers: {
       "Content-Type": "application/json",
@@ -124,24 +125,24 @@ const Details = ({history,match}) => {
      his LOCATION: ${location}
   `;
 
-       try {
-       let {response} = await axios.post("/send-text",{"recipient":"+919428237534","textmessage":textmessage},config2)
-       console.log(response)
-       } catch (error) {
-          console.log(error)
-       }
-
-  
+     
+       await axios.post("/send-text",{"recipient":`+919054296234`,"textmessage":textmessage},config2)
+       .then((res)=>(toast("Alert Sent",{type:"success"})))
+       .catch(err => toast("Alert Not sent",{type:"error"}) )
         
-  }
+      
+
+ }
   
  
   return(
 
    <div className="container">
+      <ToastContainer/>
         <div className="row">
                 <div className="col-sm-12 header">
                     <h1>One Nation One Health</h1>
+                   
                 </div>
         </div>
         <div className="row ">

@@ -57,7 +57,7 @@ const Card = ({match}) => {
                     <div style={{position:"absolute",marginTop:230,marginLeft:30,display:"flex"}} >
                             <QRCode
                                     //value={`http://localhost:3000/otherUser/${data.userId}/`}
-                                    value={`https://onenationonehealth1.herokuapp.com/otherUser/${data.userId}/`}
+                                    value={`https://onenationonehealth1.herokuapp.com/otherUser/${match.params.user_id}/`}
                                     size={128}
                                     bgColor={"#ffffff"}
                                     fgColor={"#000000"}
