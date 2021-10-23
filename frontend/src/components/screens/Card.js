@@ -8,10 +8,12 @@ import  Navbar  from "../screens/Navbar"
 
 
 
+
 const Card = ({match}) => {
 
     useEffect(() => {
         const getUserDetails= async()=>{
+          
           let {data} =   await axios.get(`/api/private/details/${match.params.user_id}`,config)
            if(data){
               setData({
@@ -22,11 +24,12 @@ const Card = ({match}) => {
               })
               
            }
+           setLoading(false)
        }
       
         getUserDetails()
       },[] )// eslint-disable-line react-hooks/exhaustive-deps
-
+      const [loading,setLoading] = useState(true);
       const [data,setData] = useState({
         fullname:"",
         age:"",
@@ -45,7 +48,7 @@ const Card = ({match}) => {
     
     return (
         <>
-      <Navbar/>
+       <Navbar/>
 
         <div style={{display:"flex" ,justifyContent:"center",alignItems:"center"}}>
             <ReactToPdf targetRef={ref} filename="div-blue.pdf">
@@ -71,7 +74,8 @@ const Card = ({match}) => {
                         </div>
                         </div>            
             </div>
-        </div>
+        </div> 
+        
         </>
     )
 }

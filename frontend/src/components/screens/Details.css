@@ -1,3 +1,10 @@
+.container{
+    background-color:#758283;
+    height: 200vh;
+    overflow-y:scroll;
+    color: white;
+}
+
 .header{
     background-color: red;
     color: white;
@@ -5,12 +12,18 @@
     justify-content: center;
 
 }
-.name{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+
+.field{
+    margin: 8% 0%;
 }
 
-.name h2{
-    margin-right: 5%;
+.value{
+    border: 1px solid #6A1B4D;
+    border-radius: 5px;
+    overflow-x: scroll;
+
+}
+
+a{
+    color: white;
 }

@@ -7,6 +7,7 @@
   margin-top: 4%;
   border-radius: 15px;
   background-color: #758283;
+  font-family:"Verdana"
 }
 
 .formLabel{
@@ -26,7 +27,6 @@ img{
 .itemRow{
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
   border:1px dashed #120E43 ;
   border-radius: 10px;
   
@@ -34,13 +34,15 @@ img{
 }
 .itemValue{
   display: flex;
+
   flex-direction: row;
 }
 .itemValue2{
   display: flex;
   flex-direction: row;
   margin-top: 8%;
-   color:brown;
+
+   color:white;
   
 }
 .rowLabel{
@@ -58,4 +60,27 @@ img{
 
  
 
+}
+
+.section{
+  display: flex;
+  padding: 1rem;
+  overflow-y: auto;
+  direction: ltr;
+  scrollbar-color: #d4aa70 #e4e4e4;
+  scrollbar-width: thin;
+}
+.section::-webkit-scrollbar {
+  width: 20px;
+}
+
+.section::-webkit-scrollbar-track {
+  background-color: #e4e4e4;
+  border-radius: 100px;
+}
+
+.section::-webkit-scrollbar-thumb {
+  border-radius: 100px;
+  background-image: linear-gradient(180deg, #d0368a 0%, #708ad4 99%);
+  box-shadow: inset 2px 2px 5px 0 rgba(#fff, 0.5);
 }

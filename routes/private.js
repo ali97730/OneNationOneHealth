@@ -9,12 +9,14 @@ const upload = require("../utils/multer");
 
 router.get("/",protect, getPrivateRoute);
 //for userdetails
-router.get("/details/:user_id",getUserDetails)
+router.get("/details/:user_id",protect,getUserDetails)
+router.get("/emergency/:user_id",getUserDetails)
 router.post("/details/:user_id",upload.array("image",10),protect,submitUserDetails)
 router.put("/details/:user_id",upload.array("image",10),protect,updateUserDetails)
+router.post("/deleteimage/:user_id",protect,deleteImage)
 
-//Pending
-// router.delete("/details/:userDetails_id/:cloudinary_id",deleteImage)
+
+
 
 
 

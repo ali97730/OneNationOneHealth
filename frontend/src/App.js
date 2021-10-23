@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import PrivateRoute from "./components/routing/PrivateRoute";
 
 // Screens
+import FallbackScreen from './FallbackScreen';
 const PrivateScreen =  lazy(()=>import("./components/screens/PrivateScreen"));
 const LoginScreen = lazy(()=>import("./components/screens/LoginScreen"));
 const RegisterScreen = lazy(()=>import("./components/screens/RegisterScreen"));
@@ -18,12 +19,13 @@ const Details = lazy(()=>import("./components/screens/Details"));
 const App = () => {
   return (
     <Router>
-      <Suspense  fallback={<div>LoADING.......</div>} className="app">
+      <Suspense  fallback={<FallbackScreen/>} className="app">
         <Switch>
           <PrivateRoute exact path="/details/:user_id" component={PrivateScreen} />
           <PrivateRoute exact path="/details/certificate/:user_id" component={Card} />
           <PrivateRoute exact path="/" component={LoginScreen} />
           <Route exact path="/otheruser/:user_id" component={Details} />
+          <Route exact path="/emergencylogin/:user_id" component={PrivateScreen} />
           <Route exact path="/login" component={LoginScreen} />
           <Route exact path="/register" component={RegisterScreen} />
           <Route

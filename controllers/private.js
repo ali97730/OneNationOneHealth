@@ -88,7 +88,6 @@ exports.submitUserDetails = async (req,res,next) => {
 exports.getUserDetails = async(req,res,next) =>{
 
   try {
-    console.log(req.params.user_id+"getting params")
      let userDetails =  await UserDetails.findOne({user:req.params.user_id})
       res.send(userDetails)
   } catch (error) {
@@ -167,13 +166,16 @@ exports.updateUserDetails = async (req,res,next) => {
 
 }
 
-//Pending
-// exports.deleteImage = async (req,res) => {
-//   const image_id = req.params.cloudinary_id;
-//   const userDetails_id = req.params.userDetails_id;
-  
-   
 
-   
-//  }
+exports.deleteImage = async (req,res) => {
+  const id = req.params.user_id;
+  console.log(id)
+  const image_id = req.body.image_id;
+  console.log(req.headers)
+  let UpdatedUser= await UserDetails.findOneAndUpdate({user:id},{$pull:{images:{_id:image_id}}},{upsert:true,new:true})
+ 
+  UpdatedUser.save();
+  res.json(UpdatedUser)
+
+  }
 

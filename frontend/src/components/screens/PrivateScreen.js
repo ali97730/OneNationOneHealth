@@ -19,6 +19,9 @@ import "./PrivateScreen.css"
 import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
 import LocalHospitalOutlinedIcon from '@mui/icons-material/LocalHospitalOutlined';
 import ConnectWithoutContactOutlinedIcon from '@mui/icons-material/ConnectWithoutContactOutlined';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import DownloadingIcon from '@mui/icons-material/Downloading';
+import FallbackScreen from "../../FallbackScreen";
 
 import { Divider } from "@mui/material";
 
@@ -56,12 +59,13 @@ const PrivateScreen = ({history,match}) => {
             setImg(data.images)
             setitems(data.items)
          }
+         setLoading(false)
      }
     
        getUserDetails()
      
     },[] )// eslint-disable-line react-hooks/exhaustive-deps
-
+    const [loading,setLoading] = useState(true);
     const [familyDoc,setFamilyDoc] =  useState(false)
     const [disabled,setDisabled] =  useState(false)
     const [don,setDon] =  useState(false)
@@ -145,7 +149,7 @@ const PrivateScreen = ({history,match}) => {
         if(field === "age"){ (value%1 === 0 )  && value > 0 && value <=100 ? setError({...error,age:false}):setError({...error,age:true})}
         if(field === "address"){ value.length > 0 && value.length <=100 ? setError({...error,address:false}):setError({...error,address:true})}
         if(field === "pincode"){ validator.isNumeric(value) && value.length <=6 && value >0 ? setError({...error,pincode:false}):setError({...error,pincode:true})}
-        if(field === "fullname"){validator.isAlpha(value) ? setError({...error,fullname:false}):setError({...error,fullname:true})}
+        if(field === "fullname"){validator.isAlpha(value) || /^[A-Za-z\s]+$/.test(value) ? setError({...error,fullname:false}):setError({...error,fullname:true})}
 
     
 
@@ -207,21 +211,24 @@ const PrivateScreen = ({history,match}) => {
       } 
     }
     if(!data.userId){
-    
+      setLoading(true)
       await axios.post(`/api/private/details/${match.params.user_id}`,formData,config).then(
         (response)=>{
             console.log(response)
+            setLoading(false)
             history.push(`/details/certificate/${match.params.user_id}`)
           }
       ).catch((err)=>{
-        console.log(err)
+        history.push("./login")
       })
     }else{
+      setLoading(true)
 
       await axios.put(`/api/private/details/${match.params.user_id}`,formData,config).then(
         (response)=>{
             console.log(response)
-           history.push(`/details/certificate/${match.params.user_id}`)
+            setLoading(false)
+            history.push(`/details/certificate/${match.params.user_id}`)
           
         }
       ).catch((err)=>{
@@ -239,9 +246,32 @@ const PrivateScreen = ({history,match}) => {
   
 }
 
+const deleteImage =async(imageId)=>{
+  var tempimg = img.filter((i)=>  i._id !== imageId)
+  const body ={ image_id:imageId}
+  axios({
+    method: 'post',
+    url: `/api/private/deleteimage/${match.params.user_id}`,
+    data: {
+      image_id:imageId
+    },
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
+    }
+   
+  })
+  .then((response)=>{console.log(response)})
+  .catch((err)=>{console.log(err)})
+  setImg(tempimg)
+
+}
+
   return(
 
-   <div style={{backgroundImage:"linear-gradient(#DB0B5F, #6F00ED)",color:"white"}}>
+   loading?(<FallbackScreen/>):(
+
+    <div style={{backgroundImage:"linear-gradient(#DB0B5F, #6F00ED)",color:"white"}}>
       <Navbar/>
    <Form onSubmit={submitHandler} className="container parentContainer">
    <ToastContainer/>
@@ -250,7 +280,7 @@ const PrivateScreen = ({history,match}) => {
            <Label  className="formLabel" htmlFor="fullname"><h3>Fullname </h3></Label>
          </div>
          <div className="col-7">
-           <Input type="text" name="fullname" id="fullname" valid={fullname.length === 0 ? false : !error.fullname} invalid={error.fullname} value={fullname}  onChange={handleChange("fullname")} placeholder="Firstname Middlename Lastname" />
+           <Input type="text" name="fullname"  id="fullname" valid={fullname.length === 0 ? false : !error.fullname} invalid={error.fullname} value={fullname}  onChange={handleChange("fullname")} placeholder="Firstname Middlename Lastname" />
            <FormFeedback invalid={error.fullname}>{error&&fullname.length === 0?"Fullname is Required":"It should not contain Number or symbols"}</FormFeedback>
         </div>
       </FormGroup>
@@ -547,7 +577,7 @@ const PrivateScreen = ({history,match}) => {
       <FormGroup className="row formRow">
             <div className="col-6 offset-3 ">
                   <h2>Add Your Last Diagnosed Details 
-                    <Fab color="primary"  aria-label="add"  onClick={toggle} style={{marginLeft:"4%"}}>
+                    <Fab color="primary"  aria-label="add"  onClick={toggle} style={{marginLeft:"2%"}}>
                     <AddIcon />
                   </Fab></h2>
             </div>
@@ -557,19 +587,19 @@ const PrivateScreen = ({history,match}) => {
       <FormGroup className="row formRow">
             {items.length!==0?(
               items.map((i,index)=>(
-                <div key={index} className="col-10 offset-1 itemRow">
+                <div key={index} className="col-12  itemRow">
                   <div className="itemValue">
                       <div className="itemValue2"><h4 className="rowLabel">Date</h4> <span><DateRangeOutlinedIcon/></span> </div> 
                       <Input   className="disabledInput" disabled value={i.dateofDiagnosed}></Input>
                   </div>
-                    <div className="itemValue">
+                    <div className=" itemValue" style={{marginLeft:"5%"}}>
                           <div className="itemValue2"><h4>Visited</h4> <span><LocalHospitalOutlinedIcon/></span> </div> 
                           <Input className="disabledInput" disabled value={i.hospitalname}></Input>
 
                     </div>
-                      <div className="itemValue">
-                      <div className="itemValue2"><h4>Purpose</h4><span><ConnectWithoutContactOutlinedIcon/></span> </div> 
-                      <Input className="disabledInput" disabled value={i.purpose}></Input>
+                      <div className="itemValue" style={{marginLeft:"6%"}}>
+                      <div className="itemValue2" style={{marginTop:"4%"}}><h4>Purpose</h4><span><ConnectWithoutContactOutlinedIcon/></span> </div> 
+                      <Input className="section" style={{width:"30vw"}} type="textarea" className="disabledInput" disabled value={i.purpose}></Input>
 
                       </div>
                 
@@ -588,15 +618,18 @@ const PrivateScreen = ({history,match}) => {
       <FormGroup className="row formRow" style={{display:"flex"}} >
               
 
-      <div className="col-10 offset-1" style={{display:"flex",overflow:"scroll"}}>
+      <div className="col-10 offset-1 section">
       {img.map((image)=>(
       
-      <div>
-        <img key={image.cloudinary_id} style={{height:"40vh",width:"25vw", marginRight:"3vw"}} 
+      <div key={image.cloudinary_id} style={{display:"flex",flexDirection:"column"}} >
+        <img  style={{height:"40vh",width:"25vw", marginRight:"3vw"}} 
           
           src={image.image_url} alt="images"></img>
-          <Fab variant="extended"style={{alignSelf:"center",margin:"2%"}} onClick={()=>{saveAs(image.image_url, image.cloudinary_id)}}>Download</Fab>
+          <div>
+          <Fab variant="extended"style={{alignSelf:"center",margin:"2%",backgroundColor:"green",color:"white"}} onClick={()=>{saveAs(image.image_url, image.cloudinary_id)}}><span><DownloadingIcon/>Download</span></Fab>
+          <Fab variant="extended"style={{alignSelf:"center",marginLeft:"25%",backgroundColor:"red",color:"white"}} onClick={()=>{deleteImage(image._id)}}> <span><DeleteOutlineIcon/> </span>Delete</Fab>
          
+            </div>
       </div>
     ))}
 
@@ -668,6 +701,7 @@ const PrivateScreen = ({history,match}) => {
 
    </div>
 
+   )
   )
 
 };
